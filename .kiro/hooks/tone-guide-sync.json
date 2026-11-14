@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "톤 가이드 ↔ 엔진 동기화",
+      "description": "말투 기준 문서(.kiro/steering/tone-guide.md)가 바뀌면 엔진의 관계·톤·초안 규칙과 테스트를 문서에 맞춘다.",
+      "trigger": "PostFileSave",
+      "matcher": "\\.kiro[\\\\/]steering[\\\\/]tone-guide\\.md$",
+      "action": {
+        "type": "agent",
+        "prompt": "tone-guide.md가 바뀌었습니다. src/engine/tone.js(말투·팁·이유), src/engine/relation.js(관계 단서), src/engine/drafts.js(첫 줄·맺음말)가 가이드의 표와 공통 규칙을 따르는지 확인하고 다른 부분을 고쳐 주세요. 바뀐 규칙마다 tests/에 테스트를 추가하고 npm test가 통과하는지 확인하세요."
+      }
+    }
+  ]
+}

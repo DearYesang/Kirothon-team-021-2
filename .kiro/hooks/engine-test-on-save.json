@@ -1,0 +1,13 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "엔진·테스트 저장 시 npm test",
+      "description": "src/engine 또는 tests 아래 JS 파일이 저장되면 단위·시나리오 테스트를 바로 실행해 회귀를 막는다.",
+      "trigger": "PostFileSave",
+      "matcher": "(src[\\\\/]engine|tests)[\\\\/].*\\.js$",
+      "action": { "type": "command", "command": "npm test --silent" },
+      "timeout": 120
+    }
+  ]
+}
