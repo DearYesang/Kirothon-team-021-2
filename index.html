@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="받은 메일을 붙여 넣으면 요약, 추천 톤앤매너, 답장 초안 3종, 일정 조언을 브라우저 안에서 바로 정리해 주는 집중비서">
+  <title>집중비서 · 판단은 내가, 말투·문장·일정 정리는 비서가</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./src/styles.css">
+  <script type="module" src="./src/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#email-input">메일 입력으로 건너뛰기</a>
+
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="logo-mark" aria-hidden="true">집</span>
+        <div class="brand-text">
+          <h1 class="logo">집중비서</h1>
+          <p class="tagline">판단은 내가, 말투·문장·일정 정리는 비서가</p>
+        </div>
+      </div>
+      <p class="counter" id="counter" title="메일 한 통마다 호칭·말투·요약·문장·일정, 5가지 작은 결정을 비서가 대신해요">
+        오늘 아낀 작은 결정: <strong id="counter-num">0</strong>개
+      </p>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel input-panel" aria-labelledby="input-title">
+      <h2 class="panel-title" id="input-title">받은 메일</h2>
+
+      <div class="field">
+        <label for="channel">메일함</label>
+        <select id="channel">
+          <option value="">자동 감지</option>
+          <option value="gmail">Gmail</option>
+          <option value="naver">네이버메일</option>
+          <option value="naverworks">네이버웍스</option>
+          <option value="outlook">Outlook</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <span class="label" id="samples-label">예시 메일로 바로 해 보기</span>
+        <div class="sample-buttons" id="sample-buttons" role="group" aria-labelledby="samples-label"></div>
+      </div>
+
+      <div class="field">
+        <label for="email-input">받은 메일을 그대로 붙여 넣으세요</label>
+        <textarea id="email-input" rows="11" spellcheck="false" aria-describedby="input-help"
+          placeholder="보낸사람: 김민수 교수 &lt;mskim@univ.example.ac.kr&gt;&#10;제목: 기말 프로젝트 면담 일정&#10;&#10;본문을 그대로 붙여 넣으면 돼요."></textarea>
+        <p class="hint" id="input-help">보낸사람·제목 줄이 있으면 더 정확해요. Ctrl+Enter로도 분석할 수 있어요.</p>
+      </div>
+
+      <details class="profile" id="profile">
+        <summary>
+          <span class="profile-title">내 정보·일정</span>
+          <span class="profile-summary" id="profile-summary"></span>
+        </summary>
+        <div class="profile-body">
+          <div class="field">
+            <label for="profile-name">내 이름</label>
+            <input type="text" id="profile-name" autocomplete="name" placeholder="예: 홍길동">
+          </div>
+          <div class="field">
+            <label for="profile-affiliation">소속(학과·학번 또는 회사)</label>
+            <input type="text" id="profile-affiliation" autocomplete="organization" placeholder="예: 경영학과 20231234">
+          </div>
+          <div class="field">
+            <label for="profile-availability">내 일정 메모</label>
+            <textarea id="profile-availability" rows="2" placeholder="예: 화·목 오후 수업, 금 오전 알바"></textarea>
+          </div>
+          <p class="hint">이 브라우저에만 저장돼요. 답장 서명과 후보 시간 고르기에 쓰여요.</p>
+        </div>
+      </details>
+
+      <p class="input-msg" id="input-msg" role="alert"></p>
+      <button type="button" class="btn btn-primary btn-block" id="analyze-btn">분석하기</button>
+    </section>
+
+    <section class="results-col" aria-labelledby="results-title">
+      <h2 class="visually-hidden" id="results-title">분석 결과</h2>
+      <div class="results" id="results" aria-live="polite">
+        <div class="card empty-state">
+          <p class="empty-kicker">메일 한 통, 내가 할 결정은 하나만</p>
+          <h3 class="empty-title">붙여 넣고 [분석하기]를 누르면 비서가 정리해 드려요</h3>
+          <ol class="empty-steps">
+            <li><span class="step-num" aria-hidden="true">①</span>요약·내가 할 일</li>
+            <li><span class="step-num" aria-hidden="true">②</span>추천 톤앤매너와 이유</li>
+            <li><span class="step-num" aria-hidden="true">③</span>답장 방향 1클릭 + 핵심 메모</li>
+            <li><span class="step-num" aria-hidden="true">④</span>답장 초안 3종 (정중·표준·간결)</li>
+            <li><span class="step-num" aria-hidden="true">⑤</span>일정 조언과 캘린더 추가</li>
+          </ol>
+          <p class="hint">예시 메일 버튼을 누르면 바로 체험할 수 있어요.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>메일 내용은 이 브라우저 밖으로 나가지 않습니다 · KIROTHON 2026</p>
+  </footer>
+
+  <p class="visually-hidden" id="status" role="status" aria-live="polite"></p>
+  <noscript><p class="noscript">집중비서는 자바스크립트를 켜야 동작해요.</p></noscript>
+</body>
+</html>
